@@ -16,7 +16,6 @@ function CLIENT_TimerButton(){
 }
 function CLIENT_TimerSend(){
     var input= document.getElementById('timer_textfield');
-    console.log(input.);
 }
 function CLIENT_ServerUpTime(time) {
 
