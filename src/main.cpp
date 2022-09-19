@@ -3,7 +3,7 @@
 #include <ESPAsyncWebServer.h>
 #include <FS.h>
 #include <Ticker.h>
-
+#include <stdlib.h>
 /* Macros */
 #define SSID "Radiant"
 #define PASS "123456789Log"
@@ -24,17 +24,28 @@ int interval = 1000;
 AsyncWebServer server(80);
 AsyncWebSocket ws("/ws");
 Ticker t;
+Ticker t2;
 /* Functions */
 void WEBSOCKET_NotifyClients() {
     Serial.println("A Change Happened!! Notifying all clients..");
         ws.textAll(Lamp1.state ? "Lamp1_ON" : "Lamp1_OFF");
         ws.textAll(Fan.state ? "Fan_ON" : "Fan_OFF");
 }
-
+char *lastN(const char *str, size_t n)
+{
+    size_t len = strlen(str);
+    return (char *)str + len - n;
+}
+void lamp_turn_off(){
+    Lamp1.state=false;
+    Lamp1.update();
+    WEBSOCKET_NotifyClients();
+}
 void WEBSOCKET_HandleMessage(void *arg, uint8_t *data, size_t len) {
     AwsFrameInfo *info = (AwsFrameInfo *)arg;
     if (info->final && info->index == 0 && info->len == len && info->opcode == WS_TEXT) {
         data[len] = 0;
+        Serial.printf("%s\n",lastN((char *)data,2));
         if (strcmp((char *)data, "Lamp1") == 0) {
             Lamp1.state = !Lamp1.state;
             digitalWrite(Lamp1.pin, Lamp1.state ? 0 : 1);
@@ -43,6 +54,9 @@ void WEBSOCKET_HandleMessage(void *arg, uint8_t *data, size_t len) {
             Fan.state = !Fan.state;
             digitalWrite(Fan.pin, Fan.state ? 0 : 1);
             WEBSOCKET_NotifyClients();
+        }
+        else{
+            t2.once( strtod(lastN((char *)data,2),NULL), lamp_turn_off);
         }
     }
 }
@@ -59,7 +73,7 @@ void WEBSOCKET_OnEvent(AsyncWebSocket *server,
         ClientsCounter++;
         Serial.printf("Clients Connected Now: %d\n", ClientsCounter);
         // int a=millis();
-        ws.text(client->id(), String(millis()));
+        //ws.text(client->id(), String(millis()));
         break;
     case WS_EVT_DISCONNECT:
         Serial.printf("WebSocket Client Disconnected :( ID:%u\n", client->id());

@@ -3,20 +3,24 @@ var gateway = `ws://${window.location.hostname}/ws`;
 var websocket;
 var timer=0;
 window.addEventListener('load', onLoad);
-
+// So you can call a fucntion directily from html and giving it the event in js :)
 function onLoad(event) {
     WEBSOCKET_Init();
     CLIENT_Lamp1ButtonToggle();
     CLIENT_FanButtonToggle();
     CLIENT_ShowCurrentTime();
-    CLIENT_TimerButton();
+
 }
-function CLIENT_TimerButton(){
-    document.getElementById('timer_button').addEventListener('click', CLIENT_TimerSend);
+function CLIENT_TimerButton(event){
+   // document.getElementById('timer_button').addEventListener('click', CLIENT_TimerSend);
+    var x = document.getElementById("myText").value;
+    var xd= "Timer"+x;
+    console.log(xd);
+     websocket.send(xd);
 }
 function CLIENT_TimerSend(){
     var input= document.getElementById('timer_textfield');
-    console.log(input.);
+   
 }
 function CLIENT_ServerUpTime(time) {
 
