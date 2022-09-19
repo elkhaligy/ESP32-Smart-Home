@@ -141,8 +141,8 @@ void setup() {
     pinMode(Lamp1.pin, OUTPUT);
     pinMode(Fan.pin, OUTPUT);
     digitalWrite(Lamp1.pin,1);
-    digitalWrite(Fan.pin,1);
-
+        digitalWrite(Fan.pin,1);
+    digitalWrite(0,0);
     Serial.begin(115200);
     delay(500);
 
