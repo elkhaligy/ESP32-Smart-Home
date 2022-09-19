@@ -8,33 +8,43 @@
   <meta name="author" content="Sirito">
   <meta name="description" content="ESP8266 with WebSocket">
   <title>Websocket</title>
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <link rel="icon" type="image/x-icon" href="13927.ico">
   <link rel="stylesheet" href="index.css">
   <script src="index.js"></script>
 </head>
 
 <body>
-  <div class="panel">
-    <h1>Hi Sirito</h1>
 
-    <!-- <div id="led" class="%STATE%"></div> 
-    
-      <button id="toggle">Toggle</button> -->
+  
 
-      <div class="content">
-        <div class="card">
-          <h2>Output - GPIO 2</h2>
-          <p class="state">state: <span id="state">%STATE%</span></p>
-          <p><button id="button" class="button">Click</button></p>
-        
-        </div>
-      </div>
-
+  <div class="content">
+    <div class="card">
+      <h2>Status</h2>
+      <p class="state">Current Time: <span id="time"></span> </p>
+      <p class="state">Server Uptime: <span id="uptime"></span></p>
+    </div>
 
     
   </div>
 
-  <!-- Rounded switch -->
+  <div class="content">
+    <div class="card">
+      <h2>Lamp 1</h2>
+      <p class="state">Lamp State: <span id="state">%Lamp1_STATE%</span></p>
+      <p><button id="button" class="button">Toggle</button></p>
+      <input type="text" id="timer_textfield" name="timerTxt">
+      <p><button id="timer_button" class="button">Timer</button></p>
+    </div>
+  </div>
+  
+  <div class="content">
+    <div class="card">
+      <h2>Fan</h2>
+      <p class="state">Fan State: <span id="state2">%Fan_STATE%</span></p>
+      <p><button id="button2" class="button">Toggle</button></p>
+    </div>
+  </div>
+  
 
 </body>
 
